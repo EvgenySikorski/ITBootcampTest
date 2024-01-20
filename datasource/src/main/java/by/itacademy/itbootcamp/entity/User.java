@@ -2,26 +2,37 @@ package by.itacademy.itbootcamp.entity;
 
 import by.itacademy.itbootcamp.core.enums.EUserRole;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-
+@Validated
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
+    @Size(min = 1, max = 20)
     private String firstname;
 
     @Column(nullable = false)
+    @Size(min = 1, max = 40)
     private String lastname;
 
     @Column(nullable = false)
+    @Size(min = 1, max = 40)
     private String surname;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
+    @Email
+    @Size(max = 50)
     private String email;
 
     @Enumerated(EnumType.STRING)

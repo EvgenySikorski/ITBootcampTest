@@ -4,6 +4,7 @@ import by.itacademy.itbootcamp.core.dto.UserCreateDTO;
 import by.itacademy.itbootcamp.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +15,8 @@ public interface IUserService {
 
     Page<User> getPage(PageRequest pageRequest);
 
-    List<User> getList();
+    List<User> getSortList();
+
 
 
 }
