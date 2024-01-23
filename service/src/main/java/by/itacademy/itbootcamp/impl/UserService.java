@@ -8,6 +8,8 @@ import by.itacademy.itbootcamp.api.IUserService;
 import by.itacademy.itbootcamp.exception.exceptions.IncorrectDataException;
 import by.itacademy.itbootcamp.exception.exceptions.MailAlreadyExistsException;
 import by.itacademy.itbootcamp.exception.exceptions.NotValidBodyException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -32,8 +34,8 @@ public class UserService implements IUserService {
     private static final String FIELD_NAME_ROLE = "role";
     private static final String INCORRECT_DATA = "Неверные данные. Попробуйте еще раз";
 
-
     private final IUserDao userDao;
+    private static final Logger logger = LogManager.getLogger();
 
     public UserService(IUserDao userDao) {
         this.userDao = userDao;
@@ -76,6 +78,9 @@ public class UserService implements IUserService {
         } else {
             throw new NullPointerException(" UserCreateDTO null");
         }
+
+        logger.info("save user: " + userCreat.getId());
+
         return this.userDao.save(userCreat);
     }
 
@@ -85,6 +90,8 @@ public class UserService implements IUserService {
             throw new IncorrectDataException(INCORRECT_DATA);
         }
 
+        logger.info("get page of all users");
+
         return this.userDao.findAll(pageRequest);
     }
 
@@ -92,6 +99,8 @@ public class UserService implements IUserService {
     public List<User> getSortList() {
         Sort.TypedSort<User> user = Sort.sort(User.class);
         Sort sort = user.by(User::getEmail).ascending();
+
+        logger.info("get all users");
 
         return this.userDao.findAll(sort);
     }
@@ -157,28 +166,8 @@ public class UserService implements IUserService {
 
             if (!Arrays.asList(arrRole).contains(role)){
                 errors.put(FIELD_NAME_ROLE, "Роль указана не верно");
-
             }
         }
-
-
-
-
-//        String role = item.getRole();
-//        if (role == null || "".equals(role)){
-//            errors.put(FIELD_NAME_ROLE, "Роль не указана");
-//        } else {
-//            EUserRole[] arrUserRole = EUserRole.values();
-//            String[] arrRole = new String[arrUserRole.length];
-//            for (int i = 0; i < arrUserRole.length; i++) {
-//                arrRole[i] = arrUserRole[i].name();
-//            }
-//
-//            if (!Arrays.asList(arrRole).contains(role)){
-//                errors.put(FIELD_NAME_ROLE, "Роль указана не верно");
-//            }
-//        }
-//
 
         if (!errors.isEmpty()){
             throw new NotValidBodyException(errors);

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserController {
 
     private final IUserService userService;
@@ -29,8 +29,8 @@ public class UserController {
     public ResponseEntity<UserDTO> save(@RequestBody UserCreateDTO userCreateDTO){
 
         User createUser = this.userService.save(userCreateDTO);
-        String fio = createUser.getFirstname() + createUser.getLastname() + createUser.getSurname();
-        UserDTO userDTO = new UserDTO(fio, createUser.getEmail(), createUser.getRole().getUserRole().toString());
+        String fio = createUser.getFirstname() + " " + createUser.getLastname() + " " + createUser.getSurname();
+        UserDTO userDTO = new UserDTO(fio, createUser.getEmail(), createUser.getRole().getUserRole());
         return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
 

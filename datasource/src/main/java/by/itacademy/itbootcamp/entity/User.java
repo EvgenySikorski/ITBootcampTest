@@ -3,8 +3,6 @@ package by.itacademy.itbootcamp.entity;
 import by.itacademy.itbootcamp.core.enums.EUserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import org.springframework.validation.annotation.Validated;
 
